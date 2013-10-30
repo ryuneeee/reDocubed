@@ -1,0 +1,2 @@
+þ*
+>0/__transactions/526482550b0828478c8d5188/tran.#0Cq!{"config":{"fieldIndexes":{},"ignoreBody":false},"time":1382318677964,"logs":[{"id":"526482550b0828478d8d5188","path":"/fruit/apple/GreenApple","touch":"TOUCH","val":{"properties":{},"references":{"__transaction":["/__transactions/526482550b0828478c8d5188"]}}},{"id":"526482550b0828478e8d5188","path":"/fruit","touch":"MODIFY","val":{"properties":{},"references":{}}}]}

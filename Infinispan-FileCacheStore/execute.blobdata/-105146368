@@ -1,0 +1,2 @@
+þ*
+>0/__transactions/526481ff0b0828475c8d5188/tran.#0Cú!{"config":{"fieldIndexes":{},"ignoreBody":false},"time":1382318591475,"logs":[{"id":"526481ff0b0828475d8d5188","path":"/fruit/apple/GreenApple","touch":"TOUCH","val":{"properties":{"__transaction":["/__transactions/526481fe0b082847598d5188"]},"references":{"__transaction":["/__transactions/526481ff0b0828475c8d5188"]}}},{"id":"526481ff0b0828475e8d5188","path":"/fruit","touch":"MODIFY","val":{"properties":{"__transaction":["/__transactions/5264800d0b0828471a8d5188"],"price":["2000"]},"references":{}}}]}

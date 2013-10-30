@@ -1,0 +1,2 @@
+þ*
+>0/__transactions/5260fe09792f28471f152183/tran.#0C…!{"config":{"fieldIndexes":{},"ignoreBody":false},"time":1382088201766,"logs":[{"id":"5260fe09792f284720152183","path":"/fruit/apple","touch":"MODIFY","val":{"properties":{"price":[2000.0]},"references":{"__transaction":["/__transactions/5260fe09792f28471f152183"]}}},{"id":"5260fe09792f284721152183","path":"/fruit","touch":"MODIFY","val":{"properties":{"price":[2000]},"references":{}}}]}

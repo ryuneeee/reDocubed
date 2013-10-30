@@ -1,0 +1,2 @@
+þ*
+>0/__transactions/526492120b082847228e5188/tran.#0C¨!{"config":{"fieldIndexes":{},"ignoreBody":false},"time":1382322706532,"logs":[{"id":"526492120b082847238e5188","path":"/pizza/fruitPizza","touch":"MODIFY","val":{"properties":{},"references":{"__transaction":["/__transactions/526492120b082847228e5188"],"fruits":["/fruit/pineApple","/fruit/apple","/fruit/grape"]}}},{"id":"526492120b082847248e5188","path":"/pizza","touch":"MODIFY","val":{"properties":{},"references":{}}}]}

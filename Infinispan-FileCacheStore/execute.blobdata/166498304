@@ -1,0 +1,2 @@
+þ*
+>0/__transactions/52648c370b082847108e5188/tran.#0C!{"config":{"fieldIndexes":{},"ignoreBody":false},"time":1382321207523,"logs":[{"id":"52648c370b082847118e5188","path":"/food/pizza/pineApplePizza","touch":"MODIFY","val":{"properties":{},"references":{"__transaction":["/__transactions/52648c370b082847108e5188"],"pineApple":["fruit/pineApple"]}}},{"id":"52648c370b082847128e5188","path":"/food/pizza","touch":"MODIFY","val":{"properties":{},"references":{}}},{"id":"52648c370b082847138e5188","path":"/food","touch":"MODIFY","val":{"properties":{},"references":{}}}]}

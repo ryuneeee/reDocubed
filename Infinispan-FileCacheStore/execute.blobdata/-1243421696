@@ -1,0 +1,2 @@
+þ*
+>0/__transactions/52663325c995043000a40ce7/tran.#0C|!{"config":{"fieldIndexes":{},"ignoreBody":false},"time":1382429477057,"logs":[{"id":"52663325c995043001a40ce7","path":"/fruit/apple/seed","touch":"REMOVE","val":{"properties":{"price":[2000.0]},"references":{"__transaction":["/__transactions/52663325c995043000a40ce7"]}}},{"id":"52663325c995043002a40ce7","path":"/fruit","touch":"MODIFY","val":{"properties":{},"references":{}}}]}
