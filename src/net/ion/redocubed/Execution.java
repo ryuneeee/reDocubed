@@ -10,6 +10,8 @@ import net.ion.radon.core.let.InnerResponse;
 import net.ion.scriptexecutor.handler.ResponseHandler;
 import net.ion.scriptexecutor.manager.ScriptManager;
 import net.ion.scriptexecutor.script.ScriptResponse;
+import org.mozilla.javascript.NativeJavaObject;
+import org.mozilla.javascript.Undefined;
 import org.restlet.data.Language;
 import org.restlet.representation.StringRepresentation;
 import org.restlet.resource.Post;
@@ -60,15 +62,15 @@ public class Execution implements IServiceLet {
 
 //
 //
-//        if (response.isSuccess() && !(response.getObject(Object.class) instanceof Undefined)){
-//            if(response.getObject(Object.class) instanceof NativeJavaObject){
-//                if(response.getObject(NativeJavaObject.class).unwrap() instanceof byte[])
-//                    return ok((byte[])response.getObject(NativeJavaObject.class).unwrap());
-//            }else{
-//                return ok((String) response.getObject(Object.class));
-//            }
-//        }
-        return new StringRepresentation((String) scriptResponse.getObject(Object.class), Language.valueOf("UTF-8"));
+        if (scriptResponse.isSuccess() && !(scriptResponse.getObject(Object.class) instanceof Undefined)){
+            if(scriptResponse.getObject(Object.class) instanceof NativeJavaObject){
+                if(scriptResponse.getObject(NativeJavaObject.class).unwrap() instanceof byte[])
+                    return new StringRepresentation((String) scriptResponse.getObject(NativeJavaObject.class).unwrap(), Language.valueOf("UTF-8"));
+            }else{
+                return new StringRepresentation((String) scriptResponse.getObject(Object.class), Language.valueOf("UTF-8"));
+            }
+        }
+        return new StringRepresentation(scriptResponse.printed(), Language.valueOf("UTF-8"));
 
     }
 }

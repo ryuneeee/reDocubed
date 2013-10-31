@@ -1,21 +1,12 @@
 package net.ion.redocubed;
 
-import net.ion.craken.loaders.lucene.CentralCacheStoreConfig;
-import net.ion.craken.node.ReadSession;
-import net.ion.craken.node.TransactionJob;
-import net.ion.craken.node.WriteSession;
-import net.ion.craken.node.crud.RepositoryImpl;
 import net.ion.framework.mte.Engine;
-import net.ion.framework.util.Debug;
 import net.ion.framework.util.InfinityThread;
 import net.ion.radon.core.Aradon;
 import net.ion.radon.core.EnumClass;
 import net.ion.radon.util.AradonTester;
 import net.ion.scriptexecutor.manager.ManagerBuilder;
 import net.ion.scriptexecutor.manager.ScriptManager;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -48,8 +39,10 @@ public class BasicTest {
                 .putAttribute("engine", engine)
                 .putAttribute(ScriptManager.class.getCanonicalName(), manager)
                 .putAttribute(CrakenRepo.class.getCanonicalName(), new CrakenRepo())
-                .register("", "/static/", EnumClass.IMatchMode.STARTWITH, GetFileLet.class)
+                .register("", "/static/", EnumClass.IMatchMode.STARTWITH, FileLet.class)
+                .register("", "/attachments/", EnumClass.IMatchMode.STARTWITH, FileLet.class)
                 .register("", "/execute", Execution.class)
+                .register("", "/uploadFile", FileLet.class)
                 .register("craken", "/newPage", EnumClass.IMatchMode.STARTWITH, NewPageLet.class)
                 .register("craken", "/editPage", EnumClass.IMatchMode.STARTWITH, EditPageLet.class)
                 .register("craken", "/", EnumClass.IMatchMode.STARTWITH, PageLet.class).getAradon();
