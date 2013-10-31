@@ -14,7 +14,8 @@ import java.io.IOException;
  * Time: 오후 4:16
  * To change this template use File | Settings | File Templates.
  */
-class CrakenRepo implements Closeable {
+
+public class CrakenRepo implements Closeable {
 
     private final RepositoryImpl repo;
 

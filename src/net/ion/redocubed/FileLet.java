@@ -2,6 +2,9 @@ package net.ion.redocubed;
 
 import net.ion.craken.node.ReadNode;
 import net.ion.craken.node.ReadSession;
+import net.ion.craken.node.TransactionJob;
+import net.ion.craken.node.WriteSession;
+import net.ion.framework.util.Debug;
 import net.ion.nradon.let.IServiceLet;
 import net.ion.radon.core.TreeContext;
 import net.ion.radon.core.annotation.AnContext;
@@ -10,14 +13,17 @@ import net.ion.radon.core.annotation.AnResponse;
 import net.ion.radon.core.let.InnerRequest;
 import net.ion.radon.core.let.InnerResponse;
 
+import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.apache.commons.io.FilenameUtils;
+import org.restlet.data.Language;
+import org.restlet.data.MediaType;
 import org.restlet.representation.InputRepresentation;
+import org.restlet.representation.OutputRepresentation;
+import org.restlet.representation.StringRepresentation;
 import org.restlet.resource.Get;
+import org.restlet.resource.Post;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -26,8 +32,7 @@ import java.io.InputStream;
  * Time: �､弡�1:45
  * To change this template use File | Settings | File Templates.
  */
-public class GetFileLet implements IServiceLet {
-
+public class FileLet implements IServiceLet {
 
 
     @Get
@@ -47,4 +52,35 @@ public class GetFileLet implements IServiceLet {
         String fileExtension = FilenameUtils.getExtension(request.getRemainPath());
         return new InputRepresentation(fis, request.getPathService().getAradon().getMetadataService().getMediaType(fileExtension));
     }
+
+    @Post
+    public StringRepresentation writeFile(@AnContext TreeContext context, @AnRequest InnerRequest request) throws Exception {
+
+        ReadSession session = context.getAttributeObject(CrakenRepo.class.getCanonicalName(), CrakenRepo.class).docSession();
+        final DiskFileItem diskFileItem = (DiskFileItem) request.getFormParameter().get("attachment");
+
+
+        final String fileHash = String.valueOf(diskFileItem.getName().hashCode());
+
+        session.tranSync(new TransactionJob<Object>() {
+            @Override
+            public Object handle(WriteSession writeSession) throws Exception {
+                writeSession.pathBy("/attachments").addChild(fileHash)
+                        .property("filename", diskFileItem.getName())
+                        .property("contentType", diskFileItem.getContentType())
+                        .blob("blob", diskFileItem.getInputStream());
+                return null;
+            }
+        });
+
+
+        String response = "{\"contentType\":\""+ diskFileItem.getContentType()+"\","
+                + "\"filename\":\""+ diskFileItem.getName()+ "\","
+                + "\"filepath\":\""+ "/attachments/" + fileHash + "\"}";
+
+
+        return new StringRepresentation(response, MediaType.APPLICATION_JSON, Language.valueOf("UTF-8"));
+    }
+
+
 }
