@@ -1,0 +1,2 @@
+þ*
+>0/__transactions/5270738e81335f30a92b3cd3/tran.#0Cw!{"config":{"fieldIndexes":{},"ignoreBody":false},"time":1383101326747,"logs":[{"id":"5270738e81335f30aa2b3cd3","path":"/fruit/apple","touch":"MODIFY","val":{"properties":{"price":[2000.0]},"references":{"__transaction":["/__transactions/5270738e81335f30a92b3cd3"]}}},{"id":"5270738e81335f30ab2b3cd3","path":"/fruit","touch":"MODIFY","val":{"properties":{},"references":{}}}]}

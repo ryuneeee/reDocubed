@@ -1,5 +1,6 @@
 package net.ion.redocubed;
 
+import net.ion.framework.util.Debug;
 import net.ion.nradon.let.IServiceLet;
 import net.ion.radon.core.TreeContext;
 import net.ion.radon.core.annotation.AnContext;
@@ -10,6 +11,7 @@ import net.ion.radon.core.let.InnerResponse;
 import net.ion.scriptexecutor.handler.ResponseHandler;
 import net.ion.scriptexecutor.manager.ScriptManager;
 import net.ion.scriptexecutor.script.ScriptResponse;
+
 import org.mozilla.javascript.NativeJavaObject;
 import org.mozilla.javascript.Undefined;
 import org.restlet.data.Language;
@@ -23,7 +25,7 @@ import java.util.Date;
  * Created with IntelliJ IDEA.
  * User: Ryun
  * Date: 2013. 10. 29.
- * Time: 오후 6:55
+ * Time: �､弡�6:55
  * To change this template use File | Settings | File Templates.
  */
 public class Execution implements IServiceLet {
@@ -34,15 +36,9 @@ public class Execution implements IServiceLet {
         ScriptManager manager = context.getAttributeObject(ScriptManager.class.getCanonicalName(), ScriptManager.class);
         String script = request.getEntityAsText();
 
-        System.out.println("Before: " + script);
-
         script = script.replace("\\", "\\\\");
         script = script.replace("\"", "\\\"");
-        script = script.replace(System.getProperty("line.separator"), "\\n");
-
-        System.out.println("After: " + script);
-
-
+        script = script.replace("\n", "");
 
         ScriptResponse scriptResponse = manager.createRhinoScript("<" + new Date().toString() + ">")
                 .defineScript("var compiled = _.template(\"" + script + "\"); compiled({session: session});")
@@ -60,12 +56,12 @@ public class Execution implements IServiceLet {
                     }
                 });
 
-//
-//
+
+
         if (scriptResponse.isSuccess() && !(scriptResponse.getObject(Object.class) instanceof Undefined)){
             if(scriptResponse.getObject(Object.class) instanceof NativeJavaObject){
                 if(scriptResponse.getObject(NativeJavaObject.class).unwrap() instanceof byte[])
-                    return new StringRepresentation((String) scriptResponse.getObject(NativeJavaObject.class).unwrap(), Language.valueOf("UTF-8"));
+                	return new StringRepresentation((CharSequence) scriptResponse.getObject(NativeJavaObject.class).unwrap(), Language.valueOf("UTF-8"));
             }else{
                 return new StringRepresentation((String) scriptResponse.getObject(Object.class), Language.valueOf("UTF-8"));
             }

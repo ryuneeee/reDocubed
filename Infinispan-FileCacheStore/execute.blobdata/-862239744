@@ -1,0 +1,2 @@
+þ*
+>0/__transactions/52706667c4cc5f30191abb8a/tran.#0Cg!{"config":{"fieldIndexes":{},"ignoreBody":false},"time":1383097959142,"logs":[{"id":"52706667c4cc5f301a1abb8a","path":"/fruit/apple","touch":"MODIFY","val":{"properties":{},"references":{"__transaction":["/__transactions/52706667c4cc5f30191abb8a"]}}},{"id":"52706667c4cc5f301b1abb8a","path":"/fruit","touch":"MODIFY","val":{"properties":{},"references":{}}}]}

@@ -16,18 +16,15 @@ function ajaxFileUpload(container)
 }
 
 
-function execution(i){
-    if ($('#preview').length > 0)
-        var code = $($('.code-textarea')[i]).text();
-    else
-        var code = codeMirrorArray[i].getValue();
+var execution = function(i){
 
-
+    var codeMirror = codeMirrorArray[i];
+    var textArea = $('.code-textarea')[i];
     $.ajax({
         type: "POST",
         url: "/execute",
         contentType: "text/html",
-        data: code
+        data: codeMirror.getValue()//$(textArea).text()
     })
     .done(function(msg) {
             $($(".result-print")[i]).html(msg);
@@ -37,7 +34,7 @@ function execution(i){
     })
 }
 
-function deletePage(){
+var deletePage = function(){
 
     if(confirm('정말 삭제 하시겠습니까?')){
         $.ajax({
@@ -52,47 +49,51 @@ function deletePage(){
     }
 }
 
-function makeExecutionBox(){
-    $('.code-textarea').each(function(i){
-        var codeMirror = CodeMirror.fromTextArea(this, {
-            lineNumbers: true,
-            mode:  "javascript",
-            theme: "solarized",
-            indentUnit: 2,
-            smartIndent: true
-        });
-        codeMirrorArray.push(codeMirror);
-    });
-}
 
-
-
-function markdownRendering(origin, target){
-    //Markdown rendering
+var markdownRendering = function(origin, target){
     $(target).html((marked($(origin).text()))) ;
 
-    //Make testbed box
     $('code[class^="lang-"]').each(function(i){
         $(this).parent().after('<button onclick="execution('+i+');" class="pure-button pure-button-small pure-button-secondary">Execute</button>' +
             '<div class="result pure-u-1"><div class="result-title">Result</div><xmp class="result-print pure-u-1"></xmp></div>');
+    });
+    $('code[class^="lang-"]').each(function(){
         $(this).replaceWith('<textarea class="code-textarea pure-u-1">'+$(this).text()+'</textarea>');
     });
 }
 
 
-//refresh preview, textarea value with typing
 $('#content-textarea').on('input keyup', function(){
-
-    //refresh textarea value
     $(this).html($(this).val());
-    //refresh preview
+});
+$('#content-textarea').on('input keyup', function(){
     markdownRendering('#content-textarea', '#preview');
-    //refresh codemirror value
-    makeExecutionBox();
+    $('.code-textarea').each(function(i){
+        var codeMirror = CodeMirror.fromTextArea(this, {
+            lineNumbers: true,
+            mode:  "javascript",
+            theme: "solarized",
+            indentUnit: 4,
+            smartIndent: true
+        });
+        codeMirrorArray.push(codeMirror);
+    });
 });
 
-//init
+
 markdownRendering('#content', '#content');
-markdownRendering('#content-textarea', '#preview');
 $(".docu-content").show();
-makeExecutionBox();
+markdownRendering('#content-textarea', '#preview');
+
+$('#content-textarea').autosize();
+
+$('.code-textarea').each(function(i){
+    var codeMirror = CodeMirror.fromTextArea(this, {
+        lineNumbers: true,
+        mode:  "javascript",
+        theme: "solarized",
+        indentUnit: 4,
+        smartIndent: true
+    });
+    codeMirrorArray.push(codeMirror);
+});
