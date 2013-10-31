@@ -16,84 +16,83 @@ function ajaxFileUpload(container)
 }
 
 
-var execution = function(i){
+function execution(i){
+    if ($('#preview').length > 0)
+        var code = $($('.code-textarea')[i]).text();
+    else
+        var code = codeMirrorArray[i].getValue();
 
-    var codeMirror = codeMirrorArray[i];
-    var textArea = $('.code-textarea')[i];
+
     $.ajax({
         type: "POST",
         url: "/execute",
         contentType: "text/html",
-        data: codeMirror.getValue()//$(textArea).text()
+        data: code
     })
-    .done(function(msg) {
+        .done(function(msg) {
             $($(".result-print")[i]).html(msg);
-    })
-    .fail(function(msg) {
+        })
+        .fail(function(msg) {
             $($(".result-print")[i]).text(msg.toString());
-    })
+        })
 }
 
-var deletePage = function(){
+function deletePage(){
 
     if(confirm('정말 삭제 하시겠습니까?')){
         $.ajax({
             type: "DELETE",
             url: location.pathname
         }).done(function(msg){
-            location.href = msg;
-        }).fail(function(msg){
-            alert("fail");
-        })
+                location.href = msg;
+            }).fail(function(msg){
+                alert("fail");
+            })
 
     }
 }
 
-
-var markdownRendering = function(origin, target){
-    $(target).html((marked($(origin).text()))) ;
-
-    $('code[class^="lang-"]').each(function(i){
-        $(this).parent().after('<button onclick="execution('+i+');" class="pure-button pure-button-small pure-button-secondary">Execute</button>' +
-            '<div class="result pure-u-1"><div class="result-title">Result</div><xmp class="result-print pure-u-1"></xmp></div>');
-    });
-    $('code[class^="lang-"]').each(function(){
-        $(this).replaceWith('<textarea class="code-textarea pure-u-1">'+$(this).text()+'</textarea>');
-    });
-}
-
-
-$('#content-textarea').on('input keyup', function(){
-    $(this).html($(this).val());
-});
-$('#content-textarea').on('input keyup', function(){
-    markdownRendering('#content-textarea', '#preview');
+function makeExecutionBox(){
     $('.code-textarea').each(function(i){
         var codeMirror = CodeMirror.fromTextArea(this, {
             lineNumbers: true,
             mode:  "javascript",
             theme: "solarized",
-            indentUnit: 4,
+            indentUnit: 2,
             smartIndent: true
         });
         codeMirrorArray.push(codeMirror);
     });
-});
+}
 
 
-markdownRendering('#content', '#content');
-$(".docu-content").show();
-markdownRendering('#content-textarea', '#preview');
 
-$('#content-textarea').autosize();
+function markdownRendering(origin, target){
+    //Markdown rendering
+    $(target).html((marked($(origin).text()))) ;
 
-$('.code-textarea').each(function(i){
-    var codeMirror = CodeMirror.fromTextArea(this, {
-        lineNumbers: true,
-        mode:  "javascript",
-        theme: "solarized",
-        indentUnit: 4,
-        smartIndent: true
+    //Make testbed box
+    $('code[class^="lang-"]').each(function(i){
+        $(this).parent().after('<button onclick="execution('+i+');" class="pure-button pure-button-small pure-button-secondary">Execute</button>' +
+            '<div class="result pure-u-1"><div class="result-title">Result</div><xmp class="result-print pure-u-1"></xmp></div>');
+        $(this).replaceWith('<textarea class="code-textarea pure-u-1">'+$(this).text()+'</textarea>');
     });
-    codeMirrorArray.push(codeMirror);
+}
+
+
+//refresh preview, textarea value with typing
+$('#content-textarea').on('input keyup', function(){
+
+    //refresh textarea value
+    $(this).html($(this).val());
+    //refresh preview
+    markdownRendering('#content-textarea', '#preview');
+    //refresh codemirror value
+    makeExecutionBox();
 });
+
+//init
+markdownRendering('#content', '#content');
+markdownRendering('#content-textarea', '#preview');
+$(".docu-content").show();
+makeExecutionBox();
