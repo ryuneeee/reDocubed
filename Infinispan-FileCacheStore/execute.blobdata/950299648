@@ -1,0 +1,2 @@
+þ*
+>0/__transactions/527344d19eb65f3086da315b/tran.#0C!{"config":{"fieldIndexes":{},"ignoreBody":false},"time":1383285969253,"logs":[{"id":"527344d19eb65f3087da315b","path":"/toBean","touch":"MODIFY","val":{"properties":{"twoTitle":["TwoTitle"]},"references":{"__transaction":["/__transactions/527344d19eb65f3086da315b"]}}}]}

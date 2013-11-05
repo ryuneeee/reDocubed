@@ -38,7 +38,7 @@ public class Execution implements IServiceLet {
 
         script = script.replace("\\", "\\\\");
         script = script.replace("\"", "\\\"");
-        script = script.replace("\n", "");
+        script = script.replace("\n", "\\n");
 
         ScriptResponse scriptResponse = manager.createRhinoScript("<" + new Date().toString() + ">")
                 .defineScript("var compiled = _.template(\"" + script + "\"); compiled({session: session});")
