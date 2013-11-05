@@ -18,10 +18,14 @@ import java.io.IOException;
  * Time: �､��11:14
  * To change this template use File | Settings | File Templates.
  */
-public class BasicTest {
+public class Docubed {
 
     public static void main(String[] args) throws Exception {
 
+        int port = 9000;
+
+        if(args.length!=0)
+            port = Integer.parseInt(args[0]);
 
         ScriptManager manager = ManagerBuilder.createBuilder().languages(ManagerBuilder.LANG.JAVASCRIPT).build();
 
@@ -45,7 +49,7 @@ public class BasicTest {
                 .register("craken", "/newPage", EnumClass.IMatchMode.STARTWITH, NewPageLet.class)
                 .register("craken", "/editPage", EnumClass.IMatchMode.STARTWITH, EditPageLet.class)
                 .register("craken", "/", EnumClass.IMatchMode.STARTWITH, PageLet.class).getAradon();
-        aradon.startServer(9000);
+        aradon.startServer(port);
 
         new InfinityThread().startNJoin();
     }

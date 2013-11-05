@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    <project name="reDocubed" default="main" basedir=".">
+
+    <target name="init">
+        <property name="build" value="bin" />
+        <property name="home" value="." />
+        <property name="src" value="src" />
+        <property name="dist" value="dist" />
+        <property name="jarname" value="reDocubed.jar" />
+        <property name="mainclass" value="net.ion.redocubed.Docubed" />
+    </target>
+
+    <target name="gen-manifest" depends="init" description="Generate CLASSPATH to use in manifest">
+        <pathconvert dirsep='${file.separator}' property="full-lib-dir">
+            <path>
+                <pathelement path="lib"/>
+            </path>
+        </pathconvert>
+
+        <echo>full-lib-dir: ${full-lib-dir}</echo>
+
+        <pathconvert pathsep=" " dirsep="/" property="manifest-path">
+            <path>
+                <fileset dir="lib" includes="*"/>
+            </path>
+            <map from="${full-lib-dir}${file.separator}" to=""/>
+        </pathconvert>
+
+        <echo>manifest-path: ${manifest-path}</echo>
+
+        <pathconvert pathsep=" " dirsep="/" property="lib-manifest-path">
+            <path>
+                <fileset dir="lib" includes="*"/>
+            </path>
+            <map from="${full-lib-dir}${file.separator}" to="lib/"/>
+        </pathconvert>
+
+        <echo>lib-manifest-path: ${lib-manifest-path}</echo>
+    </target>
+
+    <target name="compile" depends="gen-manifest">
+        <mkdir dir="${build}" />
+        <javac srcdir="${src}"  destdir="${build}" >
+            <classpath>
+                <fileset dir="lib">
+                    <include name="*.jar" />
+                </fileset>
+            </classpath>
+        </javac>
+    </target>
+
+    <target name="makejar" depends="compile">
+        <mkdir dir="${dist}" />
+        <jar destfile="${dist}/${jarname}"
+             basedir="${build}" >
+            <manifest>
+                <attribute name="Built-By" value="${user.name}"/>
+                <attribute name="Class-Path" value="${lib-manifest-path}"/>
+                <attribute name="Main-Class" value="${mainclass}" />
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="run" depends="compile">
+        <java classname="${mainclass}">
+            <classpath>
+
+                <pathelement path="${build}" />
+                <fileset dir="lib">
+                    <include name="*.jar" />
+                </fileset>
+            </classpath>
+        </java>
+    </target>
+
+    <target name="main" depends="compile" />
+
+    <target name="clean" depends="init">
+        <delete dir="${build}" />
+    </target>
+
+    <target name="clean-bulid" depends="clean,compile" />
+
+
+
+</project>
